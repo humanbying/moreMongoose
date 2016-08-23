@@ -15,6 +15,19 @@ router.route('/')
     })
   });
 
+router.get('/:id', (req, res) => {
+  //find animal by id
+
+  Animal.findById(req.params.id, (err, animal) => {
+    if(err || !animal) {
+      return res.status(400).send(err || 'Animal not found.');
+    }
+    res.send(animal);
+  }).populate('owner')
+
+
+})
+
   router.put('/:animalId/addOwner/:ownerId', (req, res) => {
     Animal.findById(req.params.animalId, (err, animal) => {
       if (err || !animal) {
