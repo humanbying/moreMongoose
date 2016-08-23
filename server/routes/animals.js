@@ -18,12 +18,15 @@ router.route('/')
 router.get('/:id', (req, res) => {
   //find animal by id
 
-  Animal.findById(req.params.id, (err, animal) => {
+  Animal
+  .findById(req.params.id)
+  .populate('owner')
+  .exec(err, animal) => {
     if(err || !animal) {
       return res.status(400).send(err || 'Animal not found.');
     }
     res.send(animal);
-  }).populate('owner')
+  })
 
 
 })
