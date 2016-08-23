@@ -1,22 +1,33 @@
-# MERN Stack Template
 
-Includes:
+**point of interest**
 
-* MongoDB / Mongoose
-* Express
-* React
-* Webpack
-* Babel
-* Bootstrap
+const mongoose = require('mongoose');
 
-and more!
+const animalScheme = mongoose.Schema({
+  name: { type: String, required: true},
+  type: { type: String }, // 'cat', 'mongoose'
+  age: { type: Number, required: true, min: 0}, //negative age doesn't make sense
 
-To start:
-```
-npm i
-npm start (or nodemon)
-```
+  // 1 instead of doing this,
+  // owner: {
+  //   name: { type: String, required: true},
+  //   email: { type: String }
+  // }
 
-#### Note:
+  // 2 we can do this
+  // owner: { type: String, required: true};
 
-Be sure to change the database name in server/app.js to something you like.
+  // 3 and even better, this,
+  //we will keep the native object id as a reference
+  //a key called owner
+
+  // 4,6
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Person'
+  }
+})
+
+const Animal = mongoose.model('Animal', animalSchema);
+
+module.exports = Animal;
